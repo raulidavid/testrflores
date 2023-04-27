@@ -10,8 +10,6 @@ namespace backend.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            //migrationBuilder.Sql(@"CREATE DATABASE Sicpa;");
-            //migrationBuilder.Sql(@"USE Sicpa;");
             migrationBuilder.CreateTable(
             name: "Enterprises",
             columns: table => new
@@ -36,6 +34,8 @@ namespace backend.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                               name: "Enterprises");
 
         }
     }
