@@ -1,0 +1,92 @@
+<div [@routerTransition]>
+  <div class="content d-flex flex-column flex-column-fluid">
+    <!-- START: Sub header -->
+    <sub-header [title]="'Administration'" [breadcrumbs]="breadcrumbs">
+      <div role="actions">
+        <button
+          class="btn btn-secondary"
+          id="close-action"
+          data-testid="close-action"
+          name="close-action"
+          (click)="closeOnClick()"
+        >
+        <span><fa-icon [size]="'lg'" [icon]="['fas', 'xmark']"></fa-icon> Cerrar</span>
+        </button>
+
+        <button
+                  
+                  class="btn btn-primary"
+                  id="save-action"
+                  data-testid="save-action"
+                  name="save-action"
+                  (click)="sendInvitationOnClick()"
+              >
+              <span><fa-icon [size]="'sm'" [icon]="['fas', 'share-from-square']"></fa-icon> Send Invitation</span>
+                  
+              </button>
+      </div>
+    </sub-header>
+    <!-- END: Sub header -->
+
+    <div [class]="containerClass">
+      <div class="card card-custom gutter-b">
+        <form [formGroup]="InviteFormGroup" autocomplete="off" class="card-body">
+          <div class="row">
+            <div class="col-12">
+              <h1>Invite User</h1>
+              <p>Please add the information for the user you want to invite to your application.</p>
+            </div>
+            <div class="col-12 col-md-6">
+              <mat-form-field>
+                <mat-label>Email of user to invite</mat-label>
+                <input
+                  placeholder="Email of user to invite"
+                  matInput
+                  formControlName="email"
+                  autocomplete="off"
+                  appUppercase
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-12 col-md-6">
+              <mat-form-field>
+                <mat-label>Invite expiration time</mat-label>
+                <mat-select formControlName="expirationTime">
+                  <mat-option
+                    *ngFor="let item of _inviteUserSetup.expirationTimesDropdown"
+                    [value]="item.key"
+                  >
+                    {{ item.value }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-12">
+              <mat-label>Role Names</mat-label>
+              <mat-selection-list
+                #listSelectionList
+                (selectionChange)="onSelectionChange()"
+              >
+                <cdk-virtual-scroll-viewport
+                  [itemSize]="20"
+                  class="example-viewport"
+                >
+                  <mat-list-option
+                    *cdkVirtualFor="
+                      let item of _inviteUserSetup.allRoleNames;
+                      let odd = odd;
+                      templateCacheSize: 0
+                    "
+                    [class.example-alternate]="odd"
+                    [value]="item"
+                    >{{ item }}
+                  </mat-list-option>
+                </cdk-virtual-scroll-viewport>
+              </mat-selection-list>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

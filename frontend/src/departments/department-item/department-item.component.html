@@ -1,0 +1,73 @@
+<div [@routerTransition]>
+    <div class="content d-flex flex-column flex-column-fluid">
+        <!-- START: Sub header -->
+        <sub-header [title]="'Administration'" [breadcrumbs]="breadcrumbs">
+            <div role="actions">
+                <button
+                    class="btn btn-secondary"
+                    id="close-action"
+                    data-testid="close-action"
+                    name="close-action"
+                    (click)="closeOnClick()"
+                >
+                <span><fa-icon [size]="'lg'" [icon]="['fas', 'xmark']"></fa-icon> Cerrar</span>
+                </button>
+
+                <button
+                    *ngIf="isAddMode() || isEditMode()"
+                    class="btn btn-primary"
+                    id="save-action"
+                    data-testid="save-action"
+                    name="save-action"
+                    (click)="saveOnClick()"
+                >
+                <span><fa-icon [size]="'lg'" [icon]="['fas', 'floppy-disk']"></fa-icon> Guardar</span>
+                </button>
+            </div>
+        </sub-header>
+        <!-- END: Sub header -->
+
+        <div [class]="containerClass">
+            <div class="card card-custom gutter-b">
+                <form [formGroup]="RoleFormGroup" autocomplete="off" class="card-body">
+                    <div class="row">
+                        <div class="col-12 col-md-6">
+                            <mat-form-field>
+                                <mat-label>Email</mat-label>
+                                <input placeholder="Email" matInput
+                                formControlName="email" autocomplete="off">
+                            </mat-form-field>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <mat-form-field>
+                                <mat-label>UserName</mat-label>
+                                <input placeholder="UserName" matInput
+                                formControlName="userName" autocomplete="off">
+                            </mat-form-field>
+                        </div>
+                        <div class="col-12">
+                            <mat-form-field>
+                                <mat-label>TenantName</mat-label>
+                                <mat-select formControlName="allTenantNames">
+                                    <mat-option *ngFor="let item of userEdit.allTenantNames" [value]="item">
+                                        {{item}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-12">
+                            <mat-label>Role Names</mat-label>
+                            <mat-selection-list #allRoleNames (selectionChange)="onSelectionChange()">
+                                <cdk-virtual-scroll-viewport [itemSize]="20" class="example-viewport">
+                                    <mat-list-option *cdkVirtualFor="let item of userEdit.allRoleNames; let odd = odd; templateCacheSize: 0" [class.example-alternate]="odd"
+                                        [value]="item" [selected]="userEdit.roleNames.includes(item)">{{item}}
+                                    </mat-list-option>
+                                </cdk-virtual-scroll-viewport>
+                            </mat-selection-list>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

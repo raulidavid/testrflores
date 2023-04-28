@@ -1,32 +1,47 @@
 version: "3.7"
-services: 
-    angular-frontmadsis:
-        build:
-            context: .
-            dockerfile: angular.dockerfile
-            args:
-                AMBIENTE: "PRODUCCION"
-                APACHE: "www-data"
-                USER: ${USER}
-                CUSTOMUID: $CUSTOMUID
-                CUSTOMGID: $CUSTOMGID
-        container_name: angular-frontmadsis
-        environment:
-            - TZ=America/Guayaquil
-        volumes:
-            - ~/.ssh/:/root/.ssh/
-        networks: 
-            raul_network:
-                aliases: 
-                    - angular-frontmadsis    
-        ports:
-            - "4400:4400"
-            - "4500:4500"
-            - "9222:9222"          
-        tty: true
-networks: 
-    raul_network:
-        name: raul_net
-        driver: bridge
-        ipam:
-            driver: default
+services:
+  jiban-db:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: jiban-db
+    ports:
+      - 1433:1433
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Yourpassword123
+      - TZ=America/Guayaquil
+    networks:
+      Production:
+        aliases:
+          - jiban-db-development
+    volumes:
+      - sqlvolume:/var/opt/mssql
+  angular-frontmadsis:
+    build:
+      context: .
+      dockerfile: angular.dockerfile
+      args:
+        AMBIENTE: "PRODUCCION"
+        APACHE: "www-data"
+        USER: ${USER}
+        CUSTOMUID: $CUSTOMUID
+        CUSTOMGID: $CUSTOMGID
+    container_name: angular-frontmadsis
+    environment:
+      - TZ=America/Guayaquil
+    volumes:
+      - ~/.ssh/:/root/.ssh/
+    networks:
+      raul_network:
+        aliases:
+          - angular-frontmadsis
+    ports:
+      - "4400:4400"
+      - "4500:4500"
+      - "9222:9222"
+    tty: true
+networks:
+  raul_network:
+    name: raul_net
+    driver: bridge
+    ipam:
+      driver: default
