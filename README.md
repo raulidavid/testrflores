@@ -16,6 +16,8 @@ Tecnologías usadas en el software
 Open Solution SicpaRflores.sln in Visual Studio 2022 and run the project
 RUN MIGRATIONS
 ```
+cd backend
+docker-compose up -d db-server
 update-database
 ```
 
